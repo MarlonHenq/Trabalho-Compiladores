@@ -147,6 +147,5 @@ make clean
 
 ## Vídeo De Entrega
 
-<iframe src="https://drive.google.com/file/d/1PVitflSA3aXOsAKRTLtT685j83F3p4tj/preview" width="640" height="480" allow="autoplay"></iframe>
 
 [VIDEO](https://drive.google.com/file/d/1PVitflSA3aXOsAKRTLtT685j83F3p4tj/view?usp=sharing)
