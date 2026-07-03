@@ -147,4 +147,4 @@ make clean
 
 ## Vídeo De Entrega
 
-TODO
+[VIDEO](https://drive.google.com/file/d/1PVitflSA3aXOsAKRTLtT685j83F3p4tj/view?usp=sharing)
