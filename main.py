@@ -1,18 +1,16 @@
 #!/usr/bin/env python3
 """
-Compilador DCDraw → SVG — ponto de entrada CLI.
+CLI
 
 Uso:
     python3 main.py <arquivo_entrada.dc> <arquivo_saida.svg>
 
-Pipeline completo:
+Pipeline:
   1. Leitura do arquivo com FileStream (UTF-8).
   2. Análise léxica (DCDrawLexer).
   3. Análise sintática (DCDrawParser): primeiro erro interrompe.
   4. Análise semântica (VisitorSemantico): acumula todos os erros.
   5. Se não houver erros, executa o GeradorSVG para produzir o SVG.
-
-Toda saída vai para o arquivo indicado; nada é impresso no terminal.
 """
 from __future__ import annotations
 
@@ -31,16 +29,12 @@ from gerador_svg import GeradorSVG
 
 
 class ErroSintaticoException(Exception):
-    """Sinaliza que o parser encontrou um erro e deve interromper."""
+    """Sinaliza que o parser encontrou um erro """
 
     pass
 
 
 class CustomErrorListener(ErrorListener):
-    """
-    Captura o primeiro erro sintático e armazena a mensagem formatada.
-    Erros subsequentes são ignorados.
-    """
 
     def __init__(self) -> None:
         super().__init__()
@@ -57,9 +51,15 @@ class CustomErrorListener(ErrorListener):
 
 
 def gravar_saida(path: Path, conteudo: str) -> None:
-    """Cria os diretórios necessários e grava o conteúdo no arquivo de saída."""
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(conteudo, encoding="utf-8")
+
+
+def reportar_erros(path: Path, conteudo: str) -> None:
+    gravar_saida(path, conteudo)
+    sys.stderr.write(conteudo)
+    if not conteudo.endswith("\n"):
+        sys.stderr.write("\n")
 
 
 def main() -> None:
@@ -89,7 +89,7 @@ def main() -> None:
         pass
 
     if lst.mensagem_erro:
-        gravar_saida(
+        reportar_erros(
             caminho_saida,
             lst.mensagem_erro + "\nFim da compilacao\n",
         )
@@ -101,7 +101,7 @@ def main() -> None:
     vis.visit(tree)
 
     if vis.erros:
-        gravar_saida(caminho_saida, vis.formatar_erros())
+        reportar_erros(caminho_saida, vis.formatar_erros())
         return
 
     # ── 4. Geração de código SVG ──────────────────────────────────────────

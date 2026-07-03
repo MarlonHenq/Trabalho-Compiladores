@@ -1,15 +1,3 @@
-"""
-Visitor semântico da linguagem DCDraw.
-
-Percorre a AST gerada pelo ANTLR4 e acumula erros semânticos sem
-interromper a análise. Ao final, os erros são ordenados por linha/coluna.
-
-Verificações implementadas:
-  1. Canvas obrigatório, único e no início do arquivo.
-  2. Dimensões positivas (largura, altura, raio > 0).
-  3. Geometria dentro dos limites do canvas.
-  4. Cor presente na paleta (tabela de símbolos).
-"""
 from __future__ import annotations
 
 from antlr4.Token import Token
@@ -20,16 +8,6 @@ from tabela_simbolos import TabelaSimbolos
 
 
 class VisitorSemantico(DCDrawVisitor):
-    """
-    Visitor principal: percorre a AST e acumula erros semânticos.
-
-    Estado interno:
-      tb            – tabela de símbolos (paleta + canvas)
-      erros         – lista de (linha, coluna, mensagem)
-      _viu_comando  – True após o primeiro comando (para exigir canvas no início)
-      _qtd_canvas   – contagem de comandos canvas encontrados
-    """
-
     def __init__(self, ts: TabelaSimbolos) -> None:
         super().__init__()
         self.tb = ts
@@ -86,7 +64,6 @@ class VisitorSemantico(DCDrawVisitor):
 
     def visitCanvas(self, ctx: DCDrawParser.CanvasContext):
         """
-        Valida o comando canvas:
           - deve ser o primeiro comando do arquivo
           - deve aparecer uma única vez
           - largura e altura devem ser positivas

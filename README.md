@@ -53,7 +53,7 @@ Cores são identificadores validados na tabela de símbolos:
 3. **Análise semântica** — canvas, limites, dimensões e cores
 4. **Geração de código** — arquivo `.svg` (somente se não houver erros)
 
-Se houver erro, o arquivo de saída contém as mensagens (e não o SVG).
+Se houver erro, as mensagens vão para o arquivo de saída e também são impressas no terminal (não é gerado SVG).
 
 ## Dependências e como instalar
 
@@ -145,12 +145,6 @@ Fim da compilacao
 make clean
 ```
 
-## Vídeo demonstrativo
+## Vídeo De Entrega
 
-*(link a ser adicionado)*
-
-## Observações
-
-- O programa **não imprime no terminal**: toda saída vai para o arquivo indicado.
-- Se houver erros (sintáticos ou semânticos), o arquivo de saída contém apenas as mensagens de erro.
-- Se não houver erros, o arquivo de saída contém o SVG gerado.
+TODO

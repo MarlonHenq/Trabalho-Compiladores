@@ -1,9 +1,5 @@
 """
 Gerador de código SVG a partir da AST da linguagem DCDraw.
-
-Percorre a árvore sintática (gerada pelo ANTLR4) e emite um arquivo SVG
-válido, pronto para abrir em qualquer navegador.
-
 Mapeamento DCDraw → SVG:
   canvas w h              →  <svg width="w" height="h" ...>
   circle cx cy r cor      →  <circle cx="..." cy="..." r="..." fill="..."/>
