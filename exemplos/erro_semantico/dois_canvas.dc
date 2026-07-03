@@ -1,0 +1,4 @@
+# Canvas duplicado
+canvas 400 300
+canvas 200 200
+circle 50 50 20 red

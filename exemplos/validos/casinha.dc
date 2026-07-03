@@ -1,0 +1,25 @@
+# Casinha simples com rect e line
+canvas 400 300
+
+# Chao
+rect 0 250 400 50 green
+
+# Corpo da casa
+rect 100 120 200 130 yellow
+
+# Telhado (triangulo com linhas)
+line 100 120 200 40 red
+line 200 40 300 120 red
+line 100 120 300 120 red
+
+# Porta
+rect 175 180 50 70 orange
+
+# Janela esquerda
+rect 120 150 40 40 blue
+
+# Janela direita
+rect 240 150 40 40 blue
+
+# Sol
+circle 340 50 30 yellow

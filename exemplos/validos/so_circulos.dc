@@ -1,0 +1,5 @@
+# Varios circulos dentro do canvas
+canvas 300 300
+circle 50 50 30 red
+circle 150 150 40 blue
+circle 250 80 20 green

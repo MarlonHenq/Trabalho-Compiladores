@@ -1,0 +1,5 @@
+# Exemplo basico: canvas + circle + rect + line
+canvas 400 300
+circle 100 100 40 red
+rect 10 10 80 50 blue
+line 0 0 200 150 black
