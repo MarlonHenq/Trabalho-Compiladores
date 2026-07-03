@@ -29,6 +29,11 @@ run:
 
 # Testa exemplos validos (devem gerar SVG) e invalidos (devem gerar erro)
 test: generate
+	@$(PY) -c "import antlr4" 2>/dev/null || { \
+		echo "Erro: antlr4-python3-runtime nao instalado."; \
+		echo "Rode: pip install -r requirements.txt"; \
+		exit 1; \
+	}
 	@mkdir -p "$(BUILD_DIR)"
 	@total=0; passou=0; falhou=0; \
 	for entrada in $(EXEMPLOS)/validos/*.dc; do \
@@ -36,12 +41,14 @@ test: generate
 		base=$$(basename "$$entrada" .dc); \
 		saida="$(BUILD_DIR)/$$base.svg"; \
 		total=$$((total + 1)); \
-		$(PY) main.py "$$entrada" "$$saida" 2>/dev/null; \
-		if grep -q '<svg' "$$saida" 2>/dev/null; then \
-			echo "[OK]   valido/$$base.dc"; \
+		if ! $(PY) main.py "$$entrada" "$$saida" 2>"$(BUILD_DIR)/$$base.log"; then \
+			echo "[FAIL] validos/$$base.dc (compilacao falhou — veja $(BUILD_DIR)/$$base.log)"; \
+			falhou=$$((falhou + 1)); \
+		elif grep -q '<svg' "$$saida" 2>/dev/null; then \
+			echo "[OK]   validos/$$base.dc"; \
 			passou=$$((passou + 1)); \
 		else \
-			echo "[FAIL] valido/$$base.dc (esperava SVG)"; \
+			echo "[FAIL] validos/$$base.dc (esperava SVG)"; \
 			falhou=$$((falhou + 1)); \
 		fi; \
 	done; \
@@ -51,8 +58,10 @@ test: generate
 		dir=$$(basename $$(dirname "$$entrada")); \
 		saida="$(BUILD_DIR)/$$base.err"; \
 		total=$$((total + 1)); \
-		$(PY) main.py "$$entrada" "$$saida" 2>/dev/null; \
-		if grep -qiE 'erro|nao |deve |fora |obrigatorio|permitida|Fim da compilacao' "$$saida" 2>/dev/null \
+		if ! $(PY) main.py "$$entrada" "$$saida" 2>"$(BUILD_DIR)/$$base.log"; then \
+			echo "[FAIL] $$dir/$$base.dc (compilacao falhou — veja $(BUILD_DIR)/$$base.log)"; \
+			falhou=$$((falhou + 1)); \
+		elif grep -qiE 'erro|nao |deve |fora |obrigatorio|permitida|Fim da compilacao' "$$saida" 2>/dev/null \
 		   && ! grep -q '<svg' "$$saida" 2>/dev/null; then \
 			echo "[OK]   $$dir/$$base.dc"; \
 			passou=$$((passou + 1)); \
